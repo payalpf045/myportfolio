@@ -2,7 +2,7 @@
 
 import Image from 'next/image';
 import { useState } from 'react';
-import { Dialog, DialogContent } from '@/components/ui/dialog';
+import { Dialog, DialogContent, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
 type Photo = {
   id: string;
@@ -49,13 +49,17 @@ export function PhotoCollage({ photos }: PhotoCollageProps) {
       <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
         <DialogContent className="p-0 border-0 max-w-5xl bg-transparent shadow-none">
           {selectedPhoto && (
-            <Image
-              src={selectedPhoto.url}
-              alt={selectedPhoto.title || 'Selected photo'}
-              width={1920}
-              height={1080}
-              className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
-            />
+            <>
+              <DialogTitle className="sr-only">{selectedPhoto.title || 'Selected photo'}</DialogTitle>
+              <DialogDescription className="sr-only">A larger view of the selected photograph.</DialogDescription>
+              <Image
+                src={selectedPhoto.url}
+                alt={selectedPhoto.title || 'Selected photo'}
+                width={1920}
+                height={1080}
+                className="w-full h-auto max-h-[90vh] object-contain rounded-lg"
+              />
+            </>
           )}
         </DialogContent>
       </Dialog>
