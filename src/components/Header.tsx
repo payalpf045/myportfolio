@@ -51,7 +51,7 @@ export function Header() {
                         <span className="sr-only">Open Menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="left" className="w-[280px]">
+                <SheetContent side="left" className="w-[240px]">
                     <div className="p-6 h-full flex flex-col">
                         <Link href="/" className="flex items-center gap-3 mb-8" aria-label="Home">
                             <span className="text-2xl font-bold tracking-wider uppercase font-headline">
@@ -106,4 +106,3 @@ export function Header() {
     </header>
   );
 }
-
