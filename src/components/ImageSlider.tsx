@@ -1,8 +1,8 @@
+
 "use client";
 
 import React, { useState, useRef, useCallback } from 'react';
 import Image from 'next/image';
-import { cn } from '@/lib/utils';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface ImageSliderProps {
@@ -23,64 +23,66 @@ export function ImageSlider({ beforeImage, afterImage }: ImageSliderProps) {
     setSliderPosition(percent);
   }, []);
 
-  const handleInteractionStart = useCallback((clientX: number) => {
+  const handleInteractionStart = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
     setIsDragging(true);
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
     handleMove(clientX);
   }, [handleMove]);
 
-  const handleInteractionEnd = useCallback(() => {
+  const handleInteractionEnd = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    e.preventDefault();
     setIsDragging(false);
   }, []);
 
-  const handleInteractionMove = useCallback((clientX: number) => {
-    if (isDragging) {
-      handleMove(clientX);
-    }
+  const handleInteractionMove = useCallback((e: React.MouseEvent | React.TouchEvent) => {
+    if (!isDragging) return;
+    e.preventDefault();
+    const clientX = 'touches' in e ? e.touches[0].clientX : e.clientX;
+    handleMove(clientX);
   }, [isDragging, handleMove]);
 
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-5xl mx-auto overflow-hidden select-none cursor-ew-resize rounded-lg border-2 border-muted"
-      onMouseDown={(e) => handleInteractionStart(e.clientX)}
+      className="relative w-full max-w-5xl mx-auto aspect-video overflow-hidden select-none rounded-lg border-2 border-muted"
+      onMouseDown={handleInteractionStart}
+      onMouseMove={handleInteractionMove}
       onMouseUp={handleInteractionEnd}
       onMouseLeave={handleInteractionEnd}
-      onMouseMove={(e) => handleInteractionMove(e.clientX)}
-      onTouchStart={(e) => handleInteractionStart(e.touches[0].clientX)}
+      onTouchStart={handleInteractionStart}
+      onTouchMove={handleInteractionMove}
       onTouchEnd={handleInteractionEnd}
-      onTouchMove={(e) => handleInteractionMove(e.touches[0].clientX)}
     >
-      {/* After Image (Base Layer) */}
-      <div className="relative aspect-video">
+      {/* After Image */}
+      <Image
+        src={afterImage}
+        alt="After"
+        fill
+        className="object-contain"
+        priority
+      />
+
+      {/* Before Image (Clipped) */}
+      <div
+        className="absolute top-0 left-0 h-full w-full overflow-hidden"
+        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+      >
         <Image
-            src={afterImage}
-            alt="After"
-            fill
-            className="object-contain"
-            priority
+          src={beforeImage}
+          alt="Before"
+          fill
+          className="object-contain"
+          priority
         />
       </div>
 
-      {/* Before Image (Clipped Layer) */}
-      <div
-          className="absolute top-0 left-0 w-full h-full overflow-hidden"
-          style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
-      >
-          <Image
-              src={beforeImage}
-              alt="Before"
-              fill
-              className="object-contain"
-              priority
-          />
-      </div>
-      
       {/* Slider Handle */}
       <div
         className="absolute top-0 bottom-0 w-1 bg-white/50 cursor-ew-resize -translate-x-1/2"
         style={{ left: `${sliderPosition}%` }}
       >
-        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-white/90 shadow-md grid place-items-center backdrop-blur-sm">
+        <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-white/90 shadow-md grid place-items-center backdrop-blur-sm cursor-ew-resize">
           <ChevronLeft className="h-6 w-6 text-background" />
           <ChevronRight className="h-6 w-6 text-background -ml-1" />
         </div>
