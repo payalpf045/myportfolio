@@ -62,7 +62,7 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
       {/* YouTube Embed */}
       <div className="relative aspect-video mb-8 rounded-lg overflow-hidden border-2 border-muted">
         <iframe
-          src={`https://www.youtube.com/embed/${project.youtube_video_id}`}
+          src={`https://www.youtube.com/embed/${project.youtube_video_id}?rel=0`}
           title="YouTube video player"
           frameBorder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
