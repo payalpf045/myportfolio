@@ -55,15 +55,9 @@ export function UploadForm({ onUploadSuccess }: UploadFormProps) {
     const fileName = `${Date.now()}-${file.name}`;
     const filePath = `${fileName}`;
 
-    // Simulate progress as direct progress tracking is complex without extra libraries
+    // Simulate progress
     const progressInterval = setInterval(() => {
-      setProgress(prev => {
-        if (prev >= 95) {
-          clearInterval(progressInterval);
-          return prev;
-        }
-        return prev + 5;
-      });
+      setProgress(prev => Math.min(prev + 10, 90));
     }, 200);
 
     const { error: uploadError } = await supabase.storage
@@ -82,7 +76,8 @@ export function UploadForm({ onUploadSuccess }: UploadFormProps) {
       });
       return;
     }
-
+    
+    // Set progress to 100 on successful upload to storage
     setProgress(100);
 
     const { data: publicUrlData } = supabase.storage
