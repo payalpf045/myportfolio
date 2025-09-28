@@ -41,7 +41,7 @@ export default async function PhotographyPage() {
           Photography
         </h1>
         <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-          A collection of finest moments, captured in time.
+          A collection of moments captured in time.
         </p>
       </div>
 

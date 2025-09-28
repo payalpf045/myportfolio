@@ -17,30 +17,21 @@ type PhotoCollageProps = {
 export function PhotoCollage({ photos }: PhotoCollageProps) {
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null);
 
-  // This ensures we can determine image aspect ratio for better layout
-  const [imageStatus, setImageStatus] = useState<{ [key: string]: 'loading' | 'loaded' | 'error' }>({});
-
-  const handleImageLoad = (photoId: string) => {
-    setImageStatus(prev => ({ ...prev, [photoId]: 'loaded' }));
-  };
-
-
   return (
     <>
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
         {photos.map((photo, index) => (
           <div
             key={photo.id}
-            className="break-inside-avoid relative"
+            className="break-inside-avoid mb-4 relative"
             onClick={() => setSelectedPhoto(photo)}
           >
             <Image
               src={photo.url}
               alt={photo.title || `Photo ${index + 1}`}
               width={500}
-              height={500} // This is just a base, `h-auto` will make it responsive
+              height={500} 
               className="w-full h-auto rounded-md object-cover cursor-pointer transition-transform duration-300 hover:scale-105"
-              onLoadingComplete={() => handleImageLoad(photo.id)}
             />
           </div>
         ))}
