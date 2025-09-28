@@ -1,34 +1,113 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
+import Image from 'next/image';
+import {
+  Card,
+  CardContent,
+} from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Film } from 'lucide-react';
+
+const projects = [
+  {
+    id: 1,
+    title: 'Midnight Diner',
+    description: 'A quiet narrative short about late-night conversations in a city that never sleeps.',
+    imageUrl: 'https://picsum.photos/seed/1/600/400',
+    aiHint: 'city night',
+    type: 'Film',
+    href: '/films/midnight-diner'
+  },
+  {
+    id: 2,
+    title: 'Coastal Drift',
+    description: 'A documentary short capturing the rhythmic life of a small fishing village.',
+    imageUrl: 'https://picsum.photos/seed/2/600/400',
+    aiHint: 'coast lifeguard',
+    type: 'Film',
+    href: '/films/coastal-drift'
+  },
+  {
+    id: 3,
+    title: 'Forest Anthem',
+    description: 'A short film exploring the serene and mystical connection between nature and humanity.',
+    imageUrl: 'https://picsum.photos/seed/3/600/400',
+    aiHint: 'new york skyline',
+    type: 'Film',
+    href: '/films/forest-anthem'
+  },
+  {
+    id: 4,
+    title: 'City Lights',
+    description: 'Exploring the vibrant nightlife of a bustling metropolis.',
+    imageUrl: 'https://picsum.photos/seed/4/600/400',
+    aiHint: 'london street',
+    type: 'Photography',
+    href: '/photography/city-lights'
+  },
+  {
+    id: 5,
+    title: 'Golden Hour',
+    description: 'Capturing the warm, ethereal light of sunset over a rural landscape.',
+    imageUrl: 'https://picsum.photos/seed/5/600/400',
+    aiHint: 'sunset barn',
+    type: 'Photography',
+    href: '/photography/golden-hour'
+  },
+  {
+    id: 6,
+    title: 'Island Dreams',
+    description: 'A visual journey through the stunning landscapes of the Greek isles.',
+    imageUrl: 'https://picsum.photos/seed/6/600/400',
+    aiHint: 'greece windmill',
+    type: 'Photography',
+    href: '/photography/island-dreams'
+  },
+];
+
 
 export default function HomePage() {
   return (
-    <div className="flex flex-col items-center justify-center text-center h-[calc(100vh-4rem)] px-4">
-        <div className="absolute inset-0 -z-10 h-full w-full bg-background bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:14px_24px]"></div>
-        <div className="absolute left-0 right-0 top-0 -z-10 m-auto h-[310px] w-[310px] rounded-full bg-primary/5 blur-[100px]"></div>
-
-        <p className="font-headline text-lg md:text-xl text-muted-foreground mb-4 animate-fade-in-up">
-            A Creative Portfolio
-        </p>
-        <h1 className="font-headline text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter mb-6 animate-fade-in-up animation-delay-200">
-            John Doe
+    <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+      <div className="text-center mb-12 md:mb-16">
+        <h1 className="font-headline text-5xl md:text-7xl font-bold">
+          Visual Storytelling
         </h1>
-        <p className="max-w-2xl text-lg text-muted-foreground/80 mb-10 animate-fade-in-up animation-delay-400">
-            Specializing in creating compelling visual narratives through photography, film, and expert color grading. Explore the portfolio to see the world through a different lens.
-        </p>
-        <div className="flex gap-4 animate-fade-in-up animation-delay-600">
-            <Button asChild size="lg" className="font-bold">
-                <Link href="/films">
-                    Explore Films <ArrowRight />
-                </Link>
-            </Button>
-            <Button asChild variant="outline" size="lg" className="font-bold">
-                <Link href="/photography">
-                    View Gallery
-                </Link>
-            </Button>
-        </div>
+      </div>
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+        {projects.map((project) => (
+          <Link href={project.href} key={project.id} className="group">
+            <Card className="bg-card border-none rounded-lg overflow-hidden h-full flex flex-col">
+              <div className="relative aspect-video">
+                <Image
+                  src={project.imageUrl}
+                  alt={project.title}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                  data-ai-hint={project.aiHint}
+                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                />
+              </div>
+              <CardContent className="p-6 flex-grow flex flex-col">
+                <div className="flex justify-between items-start mb-2">
+                  <h3 className="font-headline text-2xl font-bold group-hover:underline">
+                    {project.title}
+                  </h3>
+                  {project.type === 'Film' && (
+                    <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
+                      <Film className="h-3 w-3" />
+                      <span>Film</span>
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-muted-foreground text-sm flex-grow">
+                  {project.description}
+                </p>
+              </CardContent>
+            </Card>
+          </Link>
+        ))}
+      </div>
     </div>
   );
 }

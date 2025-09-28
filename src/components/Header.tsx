@@ -1,28 +1,27 @@
 import Link from 'next/link';
-import { Camera } from 'lucide-react';
 import { Button } from './ui/button';
 
 export function Header() {
   return (
-    <header className="bg-transparent backdrop-blur-sm border-b border-white/10 sticky top-0 z-40">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 md:px-6">
+    <header className="bg-background/80 backdrop-blur-sm border-b border-white/5 sticky top-0 z-40">
+      <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-3" aria-label="Home">
-          <span className="font-headline text-2xl font-black tracking-tight">
-            JD
+          <span className="text-2xl font-bold tracking-wider uppercase">
+            PAYAL
           </span>
         </Link>
-        <nav className="hidden md:flex items-center gap-6 text-sm font-medium">
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link
-            href="/photography"
+            href="/"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Photography
+            Projects
           </Link>
           <Link
             href="/films"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Films
+            Film
           </Link>
           <Link
             href="/color-grading"
@@ -31,15 +30,12 @@ export function Header() {
             Color Grading
           </Link>
            <Link
-            href="/admin"
+            href="/photography"
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
-            Admin
+            Photography
           </Link>
         </nav>
-        <Button asChild>
-            <Link href="mailto:contact@johndoe.com">Contact Me</Link>
-        </Button>
       </div>
     </header>
   );
