@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import { Button } from './ui/button';
 
 export function Header() {
   return (
@@ -34,12 +33,6 @@ export function Header() {
             className="text-muted-foreground transition-colors hover:text-foreground"
           >
             Photography
-          </Link>
-          <Link
-            href="/admin"
-            className="text-muted-foreground transition-colors hover:text-foreground"
-          >
-            Admin
           </Link>
         </nav>
       </div>
