@@ -13,6 +13,7 @@ interface ImageSliderProps {
 export function ImageSlider({ beforeImage, afterImage }: ImageSliderProps) {
   const [sliderPosition, setSliderPosition] = useState(50);
   const containerRef = useRef<HTMLDivElement>(null);
+  const [isDragging, setIsDragging] = useState(false);
 
   const handleMove = useCallback((clientX: number) => {
     if (!containerRef.current) return;
@@ -22,65 +23,62 @@ export function ImageSlider({ beforeImage, afterImage }: ImageSliderProps) {
     setSliderPosition(percent);
   }, []);
 
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
-    handleMove(e.clientX);
+  const handleInteractionStart = useCallback((clientX: number) => {
+    setIsDragging(true);
+    handleMove(clientX);
   }, [handleMove]);
 
-  const handleTouchMove = useCallback((e: React.TouchEvent<HTMLDivElement>) => {
-    handleMove(e.touches[0].clientX);
-  }, [handleMove]);
+  const handleInteractionEnd = useCallback(() => {
+    setIsDragging(false);
+  }, []);
 
-  const [isDragging, setIsDragging] = useState(false);
-
-  const handleMouseDown = () => setIsDragging(true);
-  const handleMouseUp = () => setIsDragging(false);
-  const handleMouseLeave = () => setIsDragging(false);
-  const handleTouchStart = () => setIsDragging(true);
-  const handleTouchEnd = () => setIsDragging(false);
-
-  const onMouseMove = (e: React.MouseEvent<HTMLDivElement>) => isDragging && handleMouseMove(e);
-  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => isDragging && handleTouchMove(e);
+  const handleInteractionMove = useCallback((clientX: number) => {
+    if (isDragging) {
+      handleMove(clientX);
+    }
+  }, [isDragging, handleMove]);
 
   return (
     <div
       ref={containerRef}
       className="relative w-full max-w-5xl mx-auto overflow-hidden select-none cursor-ew-resize rounded-lg border-2 border-muted"
-      onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
-      onMouseMove={onMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onTouchStart={handleTouchStart}
-      onTouchEnd={handleTouchEnd}
-      onTouchMove={onTouchMove}
+      onMouseDown={(e) => handleInteractionStart(e.clientX)}
+      onMouseUp={handleInteractionEnd}
+      onMouseLeave={handleInteractionEnd}
+      onMouseMove={(e) => handleInteractionMove(e.clientX)}
+      onTouchStart={(e) => handleInteractionStart(e.touches[0].clientX)}
+      onTouchEnd={handleInteractionEnd}
+      onTouchMove={(e) => handleInteractionMove(e.touches[0].clientX)}
     >
-      <div className="relative">
-         {/* This image acts as the base and sets the aspect ratio */}
+      {/* After Image (Base Layer) */}
+      <div className="relative aspect-video">
         <Image
             src={afterImage}
             alt="After"
-            width={1920}
-            height={1080}
-            className="object-contain w-full h-auto pointer-events-none"
+            fill
+            className="object-contain"
             priority
         />
+      </div>
 
-        <div
-            className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden select-none pointer-events-none"
-            style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-        >
-            <Image
-                src={beforeImage}
-                alt="Before"
-                fill
-                className="object-contain"
-                priority
-            />
-        </div>
+      {/* Before Image (Clipped Layer) */}
+      <div
+          className="absolute top-0 left-0 w-full h-full overflow-hidden"
+          style={{ clipPath: `polygon(0 0, ${sliderPosition}% 0, ${sliderPosition}% 100%, 0 100%)` }}
+      >
+          <Image
+              src={beforeImage}
+              alt="Before"
+              fill
+              className="object-contain"
+              priority
+          />
       </div>
       
+      {/* Slider Handle */}
       <div
-        className="absolute top-0 bottom-0 w-1 bg-white/50 cursor-ew-resize pointer-events-none"
-        style={{ left: `calc(${sliderPosition}% - 1px)` }}
+        className="absolute top-0 bottom-0 w-1 bg-white/50 cursor-ew-resize -translate-x-1/2"
+        style={{ left: `${sliderPosition}%` }}
       >
         <div className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 h-10 w-10 rounded-full bg-white/90 shadow-md grid place-items-center backdrop-blur-sm">
           <ChevronLeft className="h-6 w-6 text-background" />
