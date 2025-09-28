@@ -17,7 +17,7 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['PT Sans', 'sans-serif'],
+        body: ['Inter', 'sans-serif'],
         headline: ['Playfair Display', 'serif'],
         code: ['monospace'],
       },
@@ -85,12 +85,39 @@ export default {
             height: '0',
           },
         },
+         'fade-in-up': {
+          '0%': {
+            opacity: '0',
+            transform: 'translateY(10px)'
+          },
+          '100%': {
+            opacity: '1',
+            transform: 'translateY(0)'
+          },
+        }
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
+      },
+       animationDelay: {
+        '200': '200ms',
+        '400': '400ms',
+        '600': '600ms',
       },
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [
+    require('tailwindcss-animate'),
+    function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
+      const newUtilities: { [key: string]: any } = {};
+      Object.entries(theme('animationDelay')).forEach(([key, value]) => {
+        newUtilities[`.animation-delay-${key}`] = {
+          'animation-delay': value,
+        };
+      });
+      addUtilities(newUtilities);
+    }
+],
 } satisfies Config;

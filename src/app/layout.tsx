@@ -3,10 +3,11 @@ import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import { Header } from '@/components/Header';
+import { Analytics } from "@vercel/analytics/react"
 
 export const metadata: Metadata = {
-  title: 'PhotoFlow',
-  description: 'A simple system to showcase your photographic skills.',
+  title: 'Creative Portfolio',
+  description: 'A portfolio for photography, film, and color grading.',
 };
 
 export default function RootLayout({
@@ -15,16 +16,17 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" className="dark" style={{colorScheme: "dark"}}>
       <head>
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:wght@400;700&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&family=Playfair+Display:wght@400;700;900&display=swap" rel="stylesheet" />
       </head>
-      <body className={cn('font-body antialiased min-h-screen flex flex-col')}>
+      <body className={cn('font-body antialiased min-h-screen flex flex-col bg-background')}>
         <Header />
         <main className="flex-1">{children}</main>
         <Toaster />
+        <Analytics />
       </body>
     </html>
   );
