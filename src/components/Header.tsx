@@ -4,11 +4,14 @@ export function Header() {
   return (
     <header className="bg-background/80 backdrop-blur-sm border-b border-white/5 sticky top-0 z-40">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <Link href="/" className="flex items-center gap-3" aria-label="Home">
-          <span className="text-2xl font-bold tracking-wider uppercase">
-            PAYAL
-          </span>
-        </Link>
+        <div className="flex-1 flex justify-start">
+          <Link href="/" className="flex items-center gap-3" aria-label="Home">
+            <span className="text-2xl font-bold tracking-wider uppercase font-headline">
+              PAYAL
+            </span>
+          </Link>
+        </div>
+        
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
           <Link
             href="/"
@@ -35,6 +38,10 @@ export function Header() {
             Photography
           </Link>
         </nav>
+
+        <div className="flex-1 flex justify-end">
+            {/* This empty div helps to balance the flexbox layout */}
+        </div>
       </div>
     </header>
   );

@@ -19,7 +19,7 @@ const formSchema = z.object({
 
 type LoginFormValues = z.infer<typeof formSchema>;
 
-const ADMIN_PASSWORD = "payal@nita23";
+const ADMIN_PASSWORD = "payal@nita27";
 const AUTH_COOKIE_NAME = "portfolio-auth";
 
 export default function LoginPage() {
