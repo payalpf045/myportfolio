@@ -35,6 +35,12 @@ export function Header() {
           >
             Photography
           </Link>
+          <Link
+            href="/admin"
+            className="text-muted-foreground transition-colors hover:text-foreground"
+          >
+            Admin
+          </Link>
         </nav>
       </div>
     </header>
