@@ -25,7 +25,7 @@ async function getProjects() {
 const getProjectLink = (project: Project) => {
     switch(project.project_type) {
         case 'Film':
-            return `/films`; // Later this will be /films/${project.id}
+            return `/films/${project.id}`;
         case 'Color Grading':
             return `/color-grading/${project.id}`;
         case 'Photography':
