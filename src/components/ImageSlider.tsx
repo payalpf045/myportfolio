@@ -44,7 +44,7 @@ export function ImageSlider({ beforeImage, afterImage }: ImageSliderProps) {
   return (
     <div
       ref={containerRef}
-      className="relative w-full max-w-4xl mx-auto aspect-video overflow-hidden select-none cursor-ew-resize rounded-lg border-2 border-muted"
+      className="relative w-full max-w-5xl mx-auto overflow-hidden select-none cursor-ew-resize rounded-lg border-2 border-muted"
       onMouseDown={handleMouseDown}
       onMouseUp={handleMouseUp}
       onMouseMove={onMouseMove}
@@ -53,25 +53,29 @@ export function ImageSlider({ beforeImage, afterImage }: ImageSliderProps) {
       onTouchEnd={handleTouchEnd}
       onTouchMove={onTouchMove}
     >
-      <Image
-        src={afterImage}
-        alt="After"
-        fill
-        className="object-cover pointer-events-none"
-        priority
-      />
-
-      <div
-        className="absolute top-0 left-0 right-0 w-full max-w-4xl mx-auto aspect-video overflow-hidden select-none pointer-events-none"
-        style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
-      >
+      <div className="relative">
+         {/* This image acts as the base and sets the aspect ratio */}
         <Image
-          src={beforeImage}
-          alt="Before"
-          fill
-          className="object-cover"
-          priority
+            src={afterImage}
+            alt="After"
+            width={1920}
+            height={1080}
+            className="object-contain w-full h-auto pointer-events-none"
+            priority
         />
+
+        <div
+            className="absolute top-0 left-0 right-0 bottom-0 overflow-hidden select-none pointer-events-none"
+            style={{ clipPath: `inset(0 ${100 - sliderPosition}% 0 0)` }}
+        >
+            <Image
+                src={beforeImage}
+                alt="Before"
+                fill
+                className="object-contain"
+                priority
+            />
+        </div>
       </div>
       
       <div

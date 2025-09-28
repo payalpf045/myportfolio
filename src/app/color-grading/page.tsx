@@ -32,9 +32,6 @@ export default async function ColorGradingPage() {
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">
           Color Grading
         </h1>
-        <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-          Transforming visuals, one frame at a time.
-        </p>
       </div>
 
        {projects.length === 0 ? (
