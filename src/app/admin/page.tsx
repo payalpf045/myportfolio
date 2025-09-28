@@ -2,8 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import { createSupabaseClient } from '@/lib/supabase';
-import type { Photo } from '@/lib/types';
-import { UploadForm } from '@/components/UploadForm';
+import type { Project } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Trash2 } from 'lucide-react';
@@ -21,83 +20,85 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Skeleton } from '@/components/ui/skeleton';
+import { ProjectForm } from '@/components/ProjectForm';
 
 export default function AdminPage() {
-  const [photos, setPhotos] = useState<Photo[]>([]);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
   const supabase = createSupabaseClient();
   const { toast } = useToast();
 
-  const fetchPhotos = useCallback(async () => {
+  const fetchProjects = useCallback(async () => {
+    setLoading(true);
     const { data, error } = await supabase
-      .from('photos')
+      .from('projects')
       .select('*')
       .order('created_at', { ascending: false });
 
     if (error) {
-      console.error('Error fetching photos:', error);
       toast({
         title: "Error",
-        description: "Could not fetch photos.",
+        description: "Could not fetch projects.",
         variant: "destructive",
       });
     } else {
-      setPhotos(data || []);
+      setProjects(data || []);
     }
     setLoading(false);
   }, [supabase, toast]);
 
   useEffect(() => {
-    fetchPhotos();
+    fetchProjects();
+  }, [fetchProjects]);
 
-    const channel = supabase
-      .channel('photos_admin_changes')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'photos' },
-        (payload) => {
-          fetchPhotos(); // Refetch to ensure consistency
-        }
-      )
-      .subscribe();
+  const handleDelete = async (project: Project) => {
+    // Note: Supabase Storage paths need to be extracted from the full URL.
+    const getPath = (url: string | null) => url ? new URL(url).pathname.split('/projects/')[1] : null;
 
-    return () => {
-      supabase.removeChannel(channel);
-    };
-  }, [supabase, fetchPhotos]);
-  
-  const handleDelete = async (photo: Photo) => {
-    const { error: storageError } = await supabase.storage
-      .from('photos')
-      .remove([photo.image_path]);
-
-    if (storageError) {
-      console.error('Error deleting from storage:', storageError);
-      toast({
-        title: "Deletion Error",
-        description: `Could not delete image from storage: ${storageError.message}`,
-        variant: "destructive",
-      });
-      return;
+    const pathsToDelete: string[] = [];
+    if (project.cover_image_url) pathsToDelete.push(getPath(project.cover_image_url)!);
+    if (project.before_image_url) pathsToDelete.push(getPath(project.before_image_url)!);
+    if (project.after_image_url) pathsToDelete.push(getPath(project.after_image_url)!);
+    
+    // Also need to delete stills
+    const {data: stills} = await supabase.from('project_stills').select('image_url').eq('project_id', project.id);
+    if(stills) {
+      stills.forEach(still => pathsToDelete.push(getPath(still.image_url)!));
     }
 
+    if (pathsToDelete.length > 0) {
+        const { error: storageError } = await supabase.storage
+        .from('projects')
+        .remove(pathsToDelete);
+
+        if (storageError) {
+          toast({
+            title: "Storage Deletion Error",
+            description: `Could not delete project assets: ${storageError.message}`,
+            variant: "destructive",
+          });
+          // Do not return, still try to delete the DB record
+        }
+    }
+
+
     const { error: dbError } = await supabase
-      .from('photos')
+      .from('projects')
       .delete()
-      .match({ id: photo.id });
+      .match({ id: project.id });
 
     if (dbError) {
-      console.error('Error deleting from database:', dbError);
       toast({
-        title: "Deletion Error",
-        description: `Could not delete image record: ${dbError.message}`,
+        title: "Database Deletion Error",
+        description: `Could not delete project record: ${dbError.message}`,
         variant: "destructive",
       });
     } else {
       toast({
         title: "Success",
-        description: "Photo deleted successfully.",
+        description: "Project deleted successfully.",
       });
+      fetchProjects(); // Re-fetch
     }
   };
 
@@ -106,51 +107,55 @@ export default function AdminPage() {
       <h1 className="font-headline text-4xl font-bold mb-8">Admin Panel</h1>
       <div className="grid gap-12 lg:grid-cols-3">
         <div className="lg:col-span-1">
-          <UploadForm onUploadSuccess={() => {}} />
+          <ProjectForm onProjectAdded={fetchProjects} />
         </div>
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Manage Photos</CardTitle>
-              <CardDescription>View and delete uploaded photos.</CardDescription>
+              <CardTitle>Manage Projects</CardTitle>
+              <CardDescription>View and delete your projects.</CardDescription>
             </CardHeader>
             <CardContent>
               {loading ? (
                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                    {Array.from({length: 4}).map((_, i) => <Skeleton key={i} className="aspect-square w-full rounded-md" />)}
+                    {Array.from({length: 4}).map((_, i) => <Skeleton key={i} className="aspect-video w-full rounded-md" />)}
                  </div>
-              ) : photos.length === 0 ? (
-                <p className="text-center py-10 text-muted-foreground">No photos uploaded yet.</p>
+              ) : projects.length === 0 ? (
+                <p className="text-center py-10 text-muted-foreground">No projects added yet.</p>
               ) : (
-                <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-                  {photos.map((photo) => (
-                    <div key={photo.id} className="relative group">
-                      <div className="aspect-square w-full relative overflow-hidden rounded-md border">
+                <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                  {projects.map((project) => (
+                    <div key={project.id} className="relative group">
+                      <div className="aspect-video w-full relative overflow-hidden rounded-md border">
                         <Image
-                          src={photo.image_url}
-                          alt="Uploaded photo"
+                          src={project.cover_image_url}
+                          alt={project.title || 'Project cover'}
                           fill
                           className="object-cover"
-                          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                         />
                       </div>
-                      <div className="absolute rounded-md inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                      <div className="absolute rounded-md inset-0 bg-black/70 p-2 flex flex-col justify-end text-white opacity-0 group-hover:opacity-100 transition-opacity">
+                         <p className="font-bold text-sm truncate">{project.title}</p>
+                         <p className="text-xs text-white/80">{project.project_type}</p>
+                      </div>
+                      <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity">
                         <AlertDialog>
                           <AlertDialogTrigger asChild>
-                            <Button variant="destructive" size="icon" aria-label="Delete photo">
+                            <Button variant="destructive" size="icon" aria-label="Delete project">
                               <Trash2 className="h-4 w-4" />
                             </Button>
                           </AlertDialogTrigger>
                           <AlertDialogContent>
                             <AlertDialogHeader>
-                              <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
                               <AlertDialogDescription>
-                                This action cannot be undone. This will permanently delete the photo.
+                                This will permanently delete the project and all its assets. This action cannot be undone.
                               </AlertDialogDescription>
                             </AlertDialogHeader>
                             <AlertDialogFooter>
                               <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction className="bg-destructive hover:bg-destructive/90" onClick={() => handleDelete(photo)}>Delete</AlertDialogAction>
+                              <AlertDialogAction className="bg-destructive hover:bg-destructive/90" onClick={() => handleDelete(project)}>Delete</AlertDialogAction>
                             </AlertDialogFooter>
                           </AlertDialogContent>
                         </AlertDialog>
