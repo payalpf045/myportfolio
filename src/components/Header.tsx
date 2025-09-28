@@ -32,7 +32,9 @@ export function Header() {
   return (
     <header className="bg-background/80 backdrop-blur-sm border-b border-white/5 sticky top-0 z-40">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
-        <div className="flex-1 flex justify-start">
+        
+        {/* Desktop: PAYAL logo on the left */}
+        <div className="hidden md:flex flex-1 justify-start">
           <Link href="/" className="flex items-center gap-3" aria-label="Home">
             <span className="text-2xl font-bold tracking-wider uppercase font-headline">
               PAYAL
@@ -40,30 +42,16 @@ export function Header() {
           </Link>
         </div>
         
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
-            {navLinks.map(({href, label}) => (
-                <Link
-                    key={href}
-                    href={href}
-                    className={cn(
-                        "transition-colors hover:text-foreground",
-                        pathname === href ? "text-foreground" : "text-muted-foreground"
-                    )}
-                >
-                    {label}
-                </Link>
-            ))}
-        </nav>
-
-        <div className="flex-1 flex justify-end md:hidden">
-            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+        {/* Mobile: Hamburger Menu and PAYAL logo on the left */}
+        <div className="flex items-center gap-4 md:hidden">
+           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon">
                         <Menu className="h-6 w-6" />
                         <span className="sr-only">Open Menu</span>
                     </Button>
                 </SheetTrigger>
-                <SheetContent side="right" className="w-[280px]">
+                <SheetContent side="left" className="w-[280px]">
                     <div className="p-6 h-full flex flex-col">
                         <Link href="/" className="flex items-center gap-3 mb-8" aria-label="Home">
                             <span className="text-2xl font-bold tracking-wider uppercase font-headline">
@@ -87,7 +75,30 @@ export function Header() {
                     </div>
                 </SheetContent>
             </Sheet>
+             <Link href="/" className="flex items-center" aria-label="Home">
+                <span className="text-xl font-bold tracking-wider uppercase font-headline">
+                PAYAL
+                </span>
+            </Link>
         </div>
+
+        {/* Desktop: Centered Navigation */}
+        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+            {navLinks.map(({href, label}) => (
+                <Link
+                    key={href}
+                    href={href}
+                    className={cn(
+                        "transition-colors hover:text-foreground",
+                        pathname === href ? "text-foreground" : "text-muted-foreground"
+                    )}
+                >
+                    {label}
+                </Link>
+            ))}
+        </nav>
+
+        {/* Desktop: Spacer to balance the layout */}
          <div className="hidden flex-1 md:flex justify-end">
             {/* This empty div helps to balance the flexbox layout on desktop */}
         </div>

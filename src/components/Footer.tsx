@@ -1,5 +1,30 @@
 import Link from 'next/link';
-import { Mail, Instagram } from 'lucide-react';
+import { Mail, Instagram, Disc } from 'lucide-react';
+
+// A simple Discord icon component
+function DiscordIcon(props: React.SVGProps<SVGSVGElement>) {
+    return (
+        <svg
+            {...props}
+            xmlns="http://www.w3.org/2000/svg"
+            width="24"
+            height="24"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+        >
+            <path d="M12 22c5.523 0 10-4.477 10-10S17.523 2 12 2 2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.879a.75.75 0 0 0 .925-.365" />
+            <path d="M8 12.5c0 .828-.672 1.5-1.5 1.5S5 13.328 5 12.5s.672-1.5 1.5-1.5S8 11.672 8 12.5z" />
+            <path d="M19 12.5c0 .828-.672 1.5-1.5 1.5S16 13.328 16 12.5s.672-1.5 1.5-1.5S19 11.672 19 12.5z" />
+            <path d="M9.5 16.5s-1-1.5-1-3.5c0-2 1-3.5 1-3.5" />
+            <path d="M14.5 16.5s1-1.5 1-3.5c0-2-1-3.5-1-3.5" />
+        </svg>
+    );
+}
+
 
 export function Footer() {
   return (
@@ -27,6 +52,10 @@ export function Footer() {
             <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
+            </a>
+            <a href="https://discord.com" target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground transition-colors">
+                <DiscordIcon className="h-5 w-5" />
+                <span className="sr-only">Discord</span>
             </a>
         </div>
       </div>
