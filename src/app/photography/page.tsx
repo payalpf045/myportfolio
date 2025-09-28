@@ -40,9 +40,6 @@ export default async function PhotographyPage() {
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">
           Photography
         </h1>
-        <p className="text-lg text-muted-foreground mt-2 max-w-2xl mx-auto">
-          A collection of moments captured in time.
-        </p>
       </div>
 
        {photos.length === 0 ? (
