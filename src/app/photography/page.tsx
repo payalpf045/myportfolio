@@ -1,3 +1,4 @@
+
 import { createSupabaseClient } from '@/lib/supabase';
 import { PhotoCollage } from '@/components/PhotoCollage';
 import Link from 'next/link';
@@ -35,7 +36,7 @@ export default async function PhotographyPage() {
   const photos = await getAllPhotographyPhotos();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
+    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">
           Photography

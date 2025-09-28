@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -27,7 +28,7 @@ export default async function ColorGradingPage() {
   const projects = await getColorGradingProjects();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
+    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">
           Color Grading
@@ -53,9 +54,9 @@ export default async function ColorGradingPage() {
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
-                <CardContent className="p-6 flex-grow flex flex-col">
+                <CardContent className="p-4 md:p-6 flex-grow flex flex-col">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-headline text-2xl font-bold group-hover:underline">
+                    <h3 className="font-headline text-xl md:text-2xl font-bold group-hover:underline">
                       {project.title}
                     </h3>
                      <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
@@ -63,7 +64,7 @@ export default async function ColorGradingPage() {
                        <span>{project.project_type}</span>
                     </Badge>
                   </div>
-                  <p className="text-muted-foreground text-sm flex-grow">
+                  <p className="text-muted-foreground text-sm flex-grow line-clamp-2">
                     {project.description}
                   </p>
                 </CardContent>

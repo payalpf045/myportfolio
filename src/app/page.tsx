@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
@@ -83,7 +84,7 @@ export default async function HomePage() {
                 </div>
                 <CardContent className="p-0 flex-grow flex flex-col">
                   <div className="flex justify-between items-center mb-2">
-                    <h3 className="font-headline text-2xl font-bold group-hover:text-white/80 transition-colors">
+                    <h3 className="font-headline text-xl md:text-2xl font-bold group-hover:text-white/80 transition-colors">
                       {project.title}
                     </h3>
                     <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">

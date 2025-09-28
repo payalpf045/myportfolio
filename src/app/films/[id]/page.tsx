@@ -1,3 +1,4 @@
+
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project, ProjectStill } from '@/lib/types';
 import { notFound } from 'next/navigation';
@@ -57,7 +58,7 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
   }));
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-12">
+    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
       
       {/* YouTube Embed */}
       <div className="relative aspect-video mb-8 rounded-lg overflow-hidden border-2 border-muted">
@@ -72,11 +73,11 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
       </div>
 
       <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary mb-2">
+        <h1 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-2">
           {project.title}
         </h1>
         {project.description && (
-            <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
                 {project.description}
             </p>
         )}
@@ -84,8 +85,8 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
 
       {/* Film Stills */}
       {stillsForCollage.length > 0 && (
-        <div className="mt-16">
-            <h2 className="font-headline text-3xl font-bold text-center mb-8">Stills</h2>
+        <div className="mt-12 md:mt-16">
+            <h2 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">Stills</h2>
             <PhotoCollage photos={stillsForCollage} />
         </div>
       )}
