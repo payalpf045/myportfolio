@@ -2,7 +2,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Film, Image as ImageIcon } from 'lucide-react';
+import { Film, Image as ImageIcon, Contrast } from 'lucide-react';
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project } from '@/lib/types';
 
@@ -27,11 +27,24 @@ const getProjectLink = (project: Project) => {
         case 'Film':
             return `/films`; // Later this will be /films/${project.id}
         case 'Color Grading':
-            return `/color-grading`; // Later /color-grading/${project.id}
+            return `/color-grading/${project.id}`;
         case 'Photography':
-            return `/photography`; // Later /photography
+            return `/photography`;
         default:
             return '/';
+    }
+}
+
+const ProjectIcon = ({ type }: { type: Project['project_type'] }) => {
+    switch (type) {
+        case 'Film':
+            return <Film className="h-3 w-3" />;
+        case 'Color Grading':
+            return <Contrast className="h-3 w-3" />;
+        case 'Photography':
+            return <ImageIcon className="h-3 w-3" />;
+        default:
+            return null;
     }
 }
 
@@ -72,7 +85,7 @@ export default async function HomePage() {
                       {project.title}
                     </h3>
                     <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
-                      {project.project_type === 'Film' ? <Film className="h-3 w-3" /> : <ImageIcon className="h-3 w-3" />}
+                      <ProjectIcon type={project.project_type} />
                       <span>{project.project_type}</span>
                     </Badge>
                   </div>
