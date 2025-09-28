@@ -12,11 +12,11 @@ export function Footer() {
                 </span>
             </Link>
             <p className="text-sm text-muted-foreground">
-                &copy; {new Date().getFullYear()}{' '}
                 <Link href="/login" className="hover:text-foreground transition-colors">
-                    PAYAL
+                    &copy;
                 </Link>
-                . All Rights Reserved.
+                {' '}{new Date().getFullYear()}{' '}
+                PAYAL. All Rights Reserved.
             </p>
         </div>
         <div className="flex items-center gap-4">
