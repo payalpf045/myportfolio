@@ -83,15 +83,16 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
               </p>
           )}
         </div>
+
+        {/* Film Stills */}
+        {stillsForCollage.length > 0 && (
+          <div className="mt-12">
+              <h2 className="font-headline text-2xl md:text-3xl text-center mb-8">Stills</h2>
+              <PhotoCollage photos={stillsForCollage} />
+          </div>
+        )}
       </div>
 
-      {/* Film Stills */}
-      {stillsForCollage.length > 0 && (
-        <div className="mt-12 md:mt-16">
-            <h2 className="font-headline text-2xl md:text-3xl text-center mb-8">Stills</h2>
-            <PhotoCollage photos={stillsForCollage} />
-        </div>
-      )}
     </div>
   );
 }
