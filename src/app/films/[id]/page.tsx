@@ -58,29 +58,31 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
   }));
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+    <div className="container mx-auto px-4 md:px-6 py-6">
       
-      {/* YouTube Embed */}
-      <div className="relative aspect-video mb-8 rounded-lg overflow-hidden border-2 border-muted">
-        <iframe
-          src={`https://www.youtube.com/embed/${project.youtube_video_id}?rel=0`}
-          title="YouTube video player"
-          frameBorder="0"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-          allowFullScreen
-          className="absolute top-0 left-0 w-full h-full"
-        ></iframe>
-      </div>
+      <div className="max-w-4xl mx-auto">
+        {/* YouTube Embed */}
+        <div className="relative aspect-video mb-8 rounded-lg overflow-hidden border-2 border-muted">
+          <iframe
+            src={`https://www.youtube.com/embed/${project.youtube_video_id}?rel=0`}
+            title="YouTube video player"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="absolute top-0 left-0 w-full h-full"
+          ></iframe>
+        </div>
 
-      <div className="text-center mb-12">
-        <h1 className="font-headline text-3xl md:text-5xl text-primary mb-2">
-          {project.title}
-        </h1>
-        {project.description && (
-            <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
-                {project.description}
-            </p>
-        )}
+        <div className="text-center mb-12">
+          <h1 className="font-headline text-3xl md:text-4xl text-primary mb-2">
+            {project.title}
+          </h1>
+          {project.description && (
+              <p className="text-base md:text-lg text-muted-foreground max-w-3xl mx-auto">
+                  {project.description}
+              </p>
+          )}
+        </div>
       </div>
 
       {/* Film Stills */}
