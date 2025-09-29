@@ -104,7 +104,7 @@ export default function AdminPage() {
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
-      <h1 className="font-headline text-4xl font-bold mb-8">Admin Panel</h1>
+      <h1 className="font-headline text-4xl mb-8">Admin Panel</h1>
       <div className="grid gap-12 lg:grid-cols-3">
         <div className="lg:col-span-1">
           <ProjectForm onProjectAdded={fetchProjects} />

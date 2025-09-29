@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -36,7 +35,7 @@ export function Header() {
         {/* Desktop: PAYAL logo on the left */}
         <div className="hidden md:flex flex-1 justify-start">
           <Link href="/" className="flex items-center gap-3" aria-label="Home">
-            <span className="text-2xl font-bold tracking-wider uppercase font-headline">
+            <span className="text-2xl tracking-wider uppercase font-headline">
               PAYAL
             </span>
           </Link>
@@ -54,7 +53,7 @@ export function Header() {
                 <SheetContent side="left" className="w-[240px]">
                     <div className="p-6 h-full flex flex-col">
                         <Link href="/" className="flex items-center gap-3 mb-8" aria-label="Home">
-                            <span className="text-2xl font-bold tracking-wider uppercase font-headline">
+                            <span className="text-2xl tracking-wider uppercase font-headline">
                             PAYAL
                             </span>
                         </Link>
@@ -76,7 +75,7 @@ export function Header() {
                 </SheetContent>
             </Sheet>
              <Link href="/" className="flex items-center" aria-label="Home">
-                <span className="text-xl font-bold tracking-wider uppercase font-headline">
+                <span className="text-xl tracking-wider uppercase font-headline">
                 PAYAL
                 </span>
             </Link>

@@ -73,7 +73,7 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
       </div>
 
       <div className="text-center mb-12">
-        <h1 className="font-headline text-3xl md:text-5xl font-bold text-primary mb-2">
+        <h1 className="font-headline text-3xl md:text-5xl text-primary mb-2">
           {project.title}
         </h1>
         {project.description && (
@@ -86,7 +86,7 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
       {/* Film Stills */}
       {stillsForCollage.length > 0 && (
         <div className="mt-12 md:mt-16">
-            <h2 className="font-headline text-2xl md:text-3xl font-bold text-center mb-8">Stills</h2>
+            <h2 className="font-headline text-2xl md:text-3xl text-center mb-8">Stills</h2>
             <PhotoCollage photos={stillsForCollage} />
         </div>
       )}

@@ -59,7 +59,7 @@ export default async function HomePage() {
   return (
     <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
       <div className="text-center mb-12 md:mb-16">
-        <h1 className="font-headline text-5xl md:text-7xl font-bold">
+        <h1 className="font-headline text-5xl md:text-7xl">
           Visual Storytelling
         </h1>
       </div>
@@ -90,7 +90,7 @@ export default async function HomePage() {
                 </div>
                 <CardContent className="p-0 flex-grow flex flex-col">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-headline text-xl md:text-2xl font-bold group-hover:text-white/80 transition-colors">
+                    <h3 className="font-headline text-xl md:text-2xl group-hover:text-white/80 transition-colors">
                       {project.title}
                     </h3>
                     <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">

@@ -38,7 +38,7 @@ export default async function PhotographyPage() {
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
       <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold text-primary">
+        <h1 className="font-headline text-4xl md:text-5xl text-primary">
           Photography
         </h1>
       </div>
