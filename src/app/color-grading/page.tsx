@@ -28,7 +28,7 @@ export default async function ColorGradingPage() {
   const projects = await getColorGradingProjects();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+    <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="text-center mb-12">
         <h1 className="font-headline text-4xl md:text-5xl text-primary">
           Color Grading

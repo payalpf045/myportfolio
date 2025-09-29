@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -32,7 +33,7 @@ export function Header() {
     <header className="bg-background/80 backdrop-blur-sm border-b border-white/5 sticky top-0 z-40">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-4 md:flex-1">
            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
                     <Button variant="ghost" size="icon" className="md:hidden">
@@ -71,7 +72,7 @@ export function Header() {
             </Link>
         </div>
 
-        <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
+        <nav className="hidden md:flex items-center justify-center gap-8 text-sm font-medium">
             {navLinks.map(({href, label}) => (
                 <Link
                     key={href}
@@ -85,6 +86,8 @@ export function Header() {
                 </Link>
             ))}
         </nav>
+        
+        <div className="hidden md:flex flex-1" />
 
       </div>
     </header>

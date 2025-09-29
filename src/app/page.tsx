@@ -56,7 +56,7 @@ export default async function HomePage() {
   const projects = await getProjects();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+    <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="text-center mb-12 md:mb-16">
         <h1 className="font-headline text-5xl md:text-7xl">
           Visual Storytelling

@@ -28,9 +28,9 @@ export default async function FilmsPage() {
   const projects = await getFilmProjects();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
+    <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl md:text-5xl text-primary">
+        <h1 className="font-headline text-4xl md:text_5xl text-primary">
           Films
         </h1>
       </div>
