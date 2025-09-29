@@ -36,7 +36,7 @@ export default async function PhotographyPage() {
   const photos = await getAllPhotographyPhotos();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
+    <div className="container mx-auto px-4 md:px-6 py-6">
        {photos.length === 0 ? (
          <div className="text-center py-20">
             <p className="text-muted-foreground text-lg">No photography projects added yet.</p>
