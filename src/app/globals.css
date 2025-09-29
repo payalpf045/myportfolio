@@ -69,16 +69,15 @@
 
 @layer utilities {
     .animated-gradient-text {
-        background-image: linear-gradient(
+        background: linear-gradient(
             -45deg,
-            #ee7752,
-            #e73c7e,
-            #23a6d5,
-            #23d5ab
+            hsl(var(--primary)),
+            #ffffff,
+            hsl(var(--primary))
         );
-        background-size: 400% 400%;
+        background-size: 200% auto;
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
-        animation: animated-gradient 6s ease infinite;
+        animation: animated-gradient 3s linear infinite;
     }
 }
