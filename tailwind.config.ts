@@ -18,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        body: ['Inter', 'sans-serif'],
-        headline: ['Playfair Display', 'serif'],
+        body: ['Baskervville', 'serif'],
+        headline: ['Baskervville', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
