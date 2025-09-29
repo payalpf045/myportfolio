@@ -29,8 +29,8 @@ export default async function FilmsPage() {
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
-      <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl md:text_5xl text-primary">
+      <div className="text-center mb-12 md:mb-16">
+        <h1 className="font-headline text-6xl text-primary py-2">
           Films
         </h1>
       </div>
