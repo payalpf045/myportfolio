@@ -44,7 +44,7 @@ export default async function FilmsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <Link href={`/films/${project.id}`} key={project.id} className="group">
-              <Card className="bg-card border-none rounded-lg overflow-hidden h-full flex flex-col">
+              <Card className="bg-card border border-transparent rounded-lg overflow-hidden h-full flex flex-col transition-colors duration-300 hover:border-border">
                 <div className="relative aspect-video">
                   <Image
                     src={project.cover_image_url}
