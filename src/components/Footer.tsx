@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import { Mail, Instagram, Disc } from 'lucide-react';
 
-// A simple Discord icon component
+import Link from 'next/link';
+import { Mail, Instagram } from 'lucide-react';
+
 function DiscordIcon(props: React.SVGProps<SVGSVGElement>) {
     return (
         <svg
@@ -24,7 +24,6 @@ function DiscordIcon(props: React.SVGProps<SVGSVGElement>) {
         </svg>
     );
 }
-
 
 export function Footer() {
   return (

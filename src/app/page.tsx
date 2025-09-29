@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Film, Image as ImageIcon, Contrast } from 'lucide-react';
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project } from '@/lib/types';
+import { cn } from '@/lib/utils';
 
 export const revalidate = 0; // Revalidate this page on every request
 
@@ -70,8 +71,13 @@ export default async function HomePage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
-          {projects.map((project) => (
-            <Link href={getProjectLink(project)} key={project.id} className="group">
+          {projects.map((project, index) => (
+            <Link 
+              href={getProjectLink(project)} 
+              key={project.id} 
+              className="group animate-fade-in-up"
+              style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'forwards', opacity: 0 }}
+            >
               <Card className="bg-transparent border-none shadow-none rounded-lg overflow-hidden h-full flex flex-col">
                 <div className="relative aspect-video mb-4">
                   <Image
@@ -83,7 +89,7 @@ export default async function HomePage() {
                   />
                 </div>
                 <CardContent className="p-0 flex-grow flex flex-col">
-                  <div className="flex justify-between items-center mb-2">
+                  <div className="flex justify-between items-start mb-2">
                     <h3 className="font-headline text-xl md:text-2xl font-bold group-hover:text-white/80 transition-colors">
                       {project.title}
                     </h3>

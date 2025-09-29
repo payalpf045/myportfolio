@@ -99,25 +99,11 @@ export default {
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
-        'fade-in-up': 'fade-in-up 0.5s ease-out forwards',
-      },
-       animationDelay: {
-        '200': '200ms',
-        '400': '400ms',
-        '600': '600ms',
+        'fade-in-up': 'fade-in-up 0.5s ease-out',
       },
     },
   },
   plugins: [
     require('tailwindcss-animate'),
-    function({ addUtilities, theme }: { addUtilities: any, theme: any }) {
-      const newUtilities: { [key: string]: any } = {};
-      Object.entries(theme('animationDelay')).forEach(([key, value]) => {
-        newUtilities[`.animation-delay-${key}`] = {
-          'animation-delay': value,
-        };
-      });
-      addUtilities(newUtilities);
-    }
 ],
 } satisfies Config;

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from 'next/image';
@@ -19,11 +20,11 @@ export function PhotoCollage({ photos }: PhotoCollageProps) {
 
   return (
     <>
-      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4">
+      <div className="columns-1 sm:columns-2 md:columns-3 lg:columns-4 gap-4 space-y-4">
         {photos.map((photo, index) => (
           <div
             key={photo.id}
-            className="break-inside-avoid mb-4 relative"
+            className="break-inside-avoid"
             onClick={() => setSelectedPhoto(photo)}
           >
             <Image
@@ -38,7 +39,10 @@ export function PhotoCollage({ photos }: PhotoCollageProps) {
       </div>
 
       <Dialog open={!!selectedPhoto} onOpenChange={() => setSelectedPhoto(null)}>
-        <DialogContent className="p-0 border-0 max-w-5xl bg-transparent shadow-none">
+        <DialogContent 
+            className="p-0 border-0 max-w-5xl bg-transparent shadow-none"
+            data-state-no-animation
+        >
           {selectedPhoto && (
             <>
               <DialogTitle className="sr-only">{selectedPhoto.title || 'Selected photo'}</DialogTitle>
