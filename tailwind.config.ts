@@ -19,7 +19,7 @@ export default {
     extend: {
       fontFamily: {
         body: ['Inter', 'sans-serif'],
-        headline: ['Baskervville', 'serif'],
+        headline: ['Playfair Display', 'serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
