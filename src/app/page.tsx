@@ -74,7 +74,7 @@ export default async function HomePage() {
             <Link 
               href={getProjectLink(project)} 
               key={project.id} 
-              className="group animate-fade-in-up flex flex-col p-4 rounded-lg border border-transparent hover:border-border transition-colors duration-300"
+              className="group animate-fade-in-up flex flex-col p-4 rounded-lg border-2 border-transparent hover:border-border transition-all duration-300 hover:scale-[1.02]"
               style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'forwards', opacity: 0 }}
             >
                 <div className="relative aspect-video w-full overflow-hidden rounded-md mb-4">

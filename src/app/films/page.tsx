@@ -44,7 +44,7 @@ export default async function FilmsPage() {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {projects.map((project) => (
             <Link href={`/films/${project.id}`} key={project.id} className="group">
-              <Card className="bg-card border border-transparent rounded-lg overflow-hidden h-full flex flex-col transition-colors duration-300 hover:border-border">
+              <Card className="bg-card border-2 border-transparent rounded-lg overflow-hidden h-full flex flex-col transition-all duration-300 hover:border-border hover:scale-[1.02]">
                 <div className="relative aspect-video">
                   <Image
                     src={project.cover_image_url}
@@ -56,7 +56,7 @@ export default async function FilmsPage() {
                 </div>
                 <CardContent className="p-4 md:p-6 flex-grow flex flex-col">
                   <div className="flex justify-between items-start mb-2">
-                    <h3 className="font-headline text-xl md:text-2xl group-hover:underline">
+                    <h3 className="font-headline text-xl md:text-2xl">
                       {project.title}
                     </h3>
                      <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
