@@ -1,7 +1,6 @@
 
 import Link from 'next/link';
 import Image from 'next/image';
-import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Film, Image as ImageIcon, Contrast } from 'lucide-react';
 import { createSupabaseClient } from '@/lib/supabase';
@@ -57,7 +56,7 @@ export default async function HomePage() {
   const projects = await getProjects();
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-12 md:py-16">
+    <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
       <div className="text-center mb-12 md:mb-16">
         <h1 className="font-headline text-5xl md:text-7xl">
           Visual Storytelling
@@ -70,39 +69,35 @@ export default async function HomePage() {
             <p className="text-muted-foreground mt-2">Go to the <Link href="/admin" className="underline hover:text-primary">Admin Panel</Link> to add some Film or Color Grading projects.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {projects.map((project, index) => (
             <Link 
               href={getProjectLink(project)} 
               key={project.id} 
-              className="group animate-fade-in-up"
+              className="group animate-fade-in-up flex flex-col"
               style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'forwards', opacity: 0 }}
             >
-              <Card className="bg-transparent border-none shadow-none rounded-lg overflow-hidden h-full flex flex-col">
-                <div className="relative aspect-video mb-4">
+                <div className="relative aspect-video w-full overflow-hidden rounded-md mb-4">
                   <Image
                     src={project.cover_image_url}
                     alt={project.title}
                     fill
-                    className="object-cover rounded-md transition-transform duration-300 group-hover:scale-105"
+                    className="object-cover transition-transform duration-300 group-hover:scale-105"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                 </div>
-                <CardContent className="p-0 flex-grow flex flex-col">
-                  <div className="flex justify-between items-start mb-2">
+                <div className="flex justify-between items-start mb-2 gap-4">
                     <h3 className="font-headline text-xl md:text-2xl group-hover:text-white/80 transition-colors">
-                      {project.title}
+                    {project.title}
                     </h3>
-                    <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0">
+                    <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0 mt-1">
                       <ProjectIcon type={project.project_type} />
                       <span>{project.project_type}</span>
                     </Badge>
-                  </div>
-                  <p className="text-muted-foreground text-sm flex-grow">
+                </div>
+                <p className="text-muted-foreground text-sm">
                     {project.description}
-                  </p>
-                </CardContent>
-              </Card>
+                </p>
             </Link>
           ))}
         </div>
