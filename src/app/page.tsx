@@ -58,9 +58,11 @@ export default async function HomePage() {
   return (
     <div className="container mx-auto px-4 md:px-6 py-8">
       <div className="text-center mb-12 md:mb-16">
-        <h1 className="font-headline text-5xl md:text-6xl">
-          Visual Storytelling
-        </h1>
+        <div className="inline-block">
+            <h1 className="font-headline text-5xl md:text-6xl animated-gradient-text bg-clip-text text-transparent">
+              Visual Storytelling
+            </h1>
+        </div>
       </div>
 
       {projects.length === 0 ? (
