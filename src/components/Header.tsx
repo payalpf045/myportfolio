@@ -2,7 +2,7 @@
 
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { Menu, X } from 'lucide-react';
+import { Menu } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import {
   Sheet,
@@ -32,20 +32,10 @@ export function Header() {
     <header className="bg-background/80 backdrop-blur-sm border-b border-white/5 sticky top-0 z-40">
       <div className="container mx-auto flex h-20 items-center justify-between px-4 md:px-6">
         
-        {/* Desktop: PAYAL logo on the left */}
-        <div className="hidden md:flex flex-1 justify-start">
-          <Link href="/" className="flex items-center gap-3" aria-label="Home">
-            <span className="text-2xl tracking-wider uppercase font-headline">
-              PAYAL
-            </span>
-          </Link>
-        </div>
-        
-        {/* Mobile: Hamburger Menu and PAYAL logo on the left */}
-        <div className="flex items-center gap-4 md:hidden">
+        <div className="flex items-center gap-4">
            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
                 <SheetTrigger asChild>
-                    <Button variant="ghost" size="icon">
+                    <Button variant="ghost" size="icon" className="md:hidden">
                         <Menu className="h-6 w-6" />
                         <span className="sr-only">Open Menu</span>
                     </Button>
@@ -75,13 +65,12 @@ export function Header() {
                 </SheetContent>
             </Sheet>
              <Link href="/" className="flex items-center" aria-label="Home">
-                <span className="text-xl tracking-wider uppercase font-headline">
+                <span className="text-xl md:text-2xl tracking-wider uppercase font-headline">
                 PAYAL
                 </span>
             </Link>
         </div>
 
-        {/* Desktop: Centered Navigation */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium">
             {navLinks.map(({href, label}) => (
                 <Link
@@ -97,10 +86,6 @@ export function Header() {
             ))}
         </nav>
 
-        {/* Desktop: Spacer to balance the layout */}
-         <div className="hidden flex-1 md:flex justify-end">
-            {/* This empty div helps to balance the flexbox layout on desktop */}
-        </div>
       </div>
     </header>
   );
