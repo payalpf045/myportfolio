@@ -56,15 +56,21 @@ export default function AdminPage() {
     const getPath = (url: string | null) => url ? new URL(url).pathname.split('/projects/')[1] : null;
 
     const pathsToDelete: string[] = [];
-    if (project.cover_image_url) pathsToDelete.push(getPath(project.cover_image_url)!);
-    if (project.before_image_url) pathsToDelete.push(getPath(project.before_image_url)!);
-    if (project.after_image_url) pathsToDelete.push(getPath(project.after_image_url)!);
-    
-    // Also need to delete stills
-    const {data: stills} = await supabase.from('project_stills').select('image_url').eq('project_id', project.id);
-    if(stills) {
-      stills.forEach(still => pathsToDelete.push(getPath(still.image_url)!));
+    if (project.cover_image_url) {
+        const path = getPath(project.cover_image_url);
+        if(path) pathsToDelete.push(path);
     }
+    if (project.before_image_url) {
+        const path = getPath(project.before_image_url);
+        if(path) pathsToDelete.push(path);
+    }
+    if (project.after_image_url) {
+        const path = getPath(project.after_image_url);
+        if(path) pathsToDelete.push(path);
+    }
+    
+    // Deleting stills logic was removed as it's not relevant to this page and was causing errors.
+    // Stills are managed within the context of a film project, not globally here.
 
     if (pathsToDelete.length > 0) {
         const { error: storageError } = await supabase.storage
