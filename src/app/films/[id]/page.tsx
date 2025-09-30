@@ -1,14 +1,11 @@
-"use client";
-
-import { useState, useEffect } from 'react';
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project, ProjectStill } from '@/lib/types';
-import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 import { PhotoCollage } from '@/components/PhotoCollage';
-import { Skeleton } from '@/components/ui/skeleton';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
+import Link from 'next/link';
+import { notFound } from 'next/navigation';
 
 type FilmProjectPageProps = {
   params: {
@@ -20,78 +17,39 @@ type ProjectWithStills = Project & {
   stills: ProjectStill[];
 };
 
-export default function FilmProjectPage({ params }: FilmProjectPageProps) {
-  const router = useRouter();
-  const { id } = params;
-  const [project, setProject] = useState<ProjectWithStills | null>(null);
-  const [loading, setLoading] = useState(true);
-
-  useEffect(() => {
-    async function fetchProject() {
-      if (!id) return;
+async function getProject(id: string): Promise<ProjectWithStills | null> {
+    const supabase = createSupabaseClient();
       
-      setLoading(true);
-      const supabase = createSupabaseClient();
-      
-      const { data: projectData, error: projectError } = await supabase
+    const { data: projectData, error: projectError } = await supabase
         .from('projects')
         .select('*')
         .eq('id', id)
         .eq('project_type', 'Film')
         .single();
 
-      if (projectError || !projectData) {
+    if (projectError || !projectData) {
         console.error('Error fetching project or project not found:', projectError);
-        setProject(null);
-      } else {
-        const { data: stillsData, error: stillsError } = await supabase
-          .from('project_stills')
-          .select('*')
-          .eq('project_id', id);
-
-        if (stillsError) {
-          console.error('Error fetching project stills:', stillsError);
-        }
-        
-        setProject({ ...projectData, stills: stillsData || [] });
-      }
-      setLoading(false);
+        return null;
     }
+    
+    const { data: stillsData, error: stillsError } = await supabase
+        .from('project_stills')
+        .select('*')
+        .eq('project_id', id);
 
-    fetchProject();
-  }, [id]);
+    if (stillsError) {
+        console.error('Error fetching project stills:', stillsError);
+    }
+    
+    return { ...projectData, stills: stillsData || [] };
+}
 
-  if (loading) {
-    return (
-        <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
-            <Skeleton className="relative aspect-video w-full mb-8 rounded-lg" />
-            <div className="text-center mb-12">
-                <Skeleton className="h-12 w-1/2 mx-auto mb-4" />
-                <Skeleton className="h-6 w-3/4 mx-auto" />
-            </div>
-            <div className="mt-12 md:mt-16">
-                 <Skeleton className="h-10 w-1/4 mx-auto mb-8" />
-                 <div className="columns-1 sm:columns-2 md:columns-3 gap-4 space-y-4">
-                    <Skeleton className="h-64 w-full"/>
-                    <Skeleton className="h-80 w-full"/>
-                    <Skeleton className="h-64 w-full"/>
-                    <Skeleton className="h-64 w-full"/>
-                    <Skeleton className="h-80 w-full"/>
-                    <Skeleton className="h-64 w-full"/>
-                 </div>
-            </div>
-        </div>
-    );
-  }
+
+export default async function FilmProjectPage({ params }: FilmProjectPageProps) {
+  const project = await getProject(params.id);
 
   if (!project) {
-     return (
-        <div className="container mx-auto text-center py-20">
-            <h1 className="text-2xl font-bold">Project Not Found</h1>
-            <p className="text-muted-foreground mt-2">This film project could not be loaded.</p>
-            <Button onClick={() => router.push('/films')} className="mt-6">Go to Films</Button>
-        </div>
-    );
+    notFound();
   }
 
   const stillsForCollage = project.stills.map(still => ({
@@ -103,9 +61,11 @@ export default function FilmProjectPage({ params }: FilmProjectPageProps) {
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="mb-6">
-            <Button variant="ghost" onClick={() => router.back()} className="text-muted-foreground">
-                <ChevronLeft className="h-4 w-4 mr-2" />
-                Back to Films
+            <Button variant="ghost" asChild className="text-muted-foreground">
+                <Link href="/films">
+                    <ChevronLeft className="h-4 w-4 mr-2" />
+                    Back to Films
+                </Link>
             </Button>
         </div>
       
@@ -136,7 +96,19 @@ export default function FilmProjectPage({ params }: FilmProjectPageProps) {
       {stillsForCollage.length > 0 && (
         <div className="mt-12 md:mt-16">
             <h2 className="font-headline text-3xl md:text-4xl font-bold text-center mb-8">Stills</h2>
-            <PhotoCollage photos={stillsForCollage} />
+            <div className="columns-1 sm:columns-2 lg:columns-3 gap-4 space-y-4">
+                {stillsForCollage.map((photo) => (
+                    <div key={photo.id} className="break-inside-avoid">
+                        <Image
+                        src={photo.url}
+                        alt={photo.title || 'Project Still'}
+                        width={500}
+                        height={500}
+                        className="w-full h-auto rounded-md object-cover"
+                        />
+                    </div>
+                ))}
+            </div>
         </div>
       )}
     </div>
