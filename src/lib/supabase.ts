@@ -1,13 +1,6 @@
 import { createClient, SupabaseClient } from '@supabase/supabase-js'
 
-// Re-usable singleton client
-let supabaseClient: SupabaseClient | null = null;
-
 export function createSupabaseClient() {
-  if (supabaseClient) {
-    return supabaseClient;
-  }
-
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
@@ -15,7 +8,7 @@ export function createSupabaseClient() {
     throw new Error('Supabase URL or Anon Key is not defined in environment variables.');
   }
   
-  supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
+  const supabaseClient = createClient(supabaseUrl, supabaseAnonKey);
 
   return supabaseClient;
 }
