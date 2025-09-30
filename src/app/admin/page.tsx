@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect, useCallback } from 'react';
@@ -22,10 +23,12 @@ import {
 import { Skeleton } from '@/components/ui/skeleton';
 import { ProjectForm } from '@/components/ProjectForm';
 
+// Create the Supabase client once outside the component to prevent re-creation on every render
+const supabase = createSupabaseClient();
+
 export default function AdminPage() {
   const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
-  const supabase = createSupabaseClient();
   const { toast } = useToast();
 
   const fetchProjects = useCallback(async () => {
@@ -45,7 +48,7 @@ export default function AdminPage() {
       setProjects(data || []);
     }
     setLoading(false);
-  }, [supabase, toast]);
+  }, [toast]);
 
   useEffect(() => {
     fetchProjects();
@@ -69,9 +72,10 @@ export default function AdminPage() {
         if(path) pathsToDelete.push(path);
     }
     
-    // Deleting stills logic was removed as it's not relevant to this page and was causing errors.
-    // Stills are managed within the context of a film project, not globally here.
-
+    // Stills are managed on the film-specific page, so we don't need to handle them here.
+    // Deleting them from this global admin panel could lead to errors if a film project
+    // doesn't have stills.
+    
     if (pathsToDelete.length > 0) {
         const { error: storageError } = await supabase.storage
         .from('projects')
