@@ -1,3 +1,4 @@
+"use server";
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project } from '@/lib/types';
 import { ImageSlider } from '@/components/ImageSlider';
@@ -5,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type ColorGradingProjectPageProps = {
   params: {
@@ -30,6 +32,7 @@ async function getProject(id: string): Promise<Project | null> {
 }
 
 export default async function ColorGradingProjectPage({ params }: ColorGradingProjectPageProps) {
+  await params; // Ensure params are resolved
   const project = await getProject(params.id);
 
   if (!project) {

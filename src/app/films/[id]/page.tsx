@@ -1,11 +1,12 @@
+"use server";
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project, ProjectStill } from '@/lib/types';
 import Image from 'next/image';
-import { PhotoCollage } from '@/components/PhotoCollage';
 import { Button } from '@/components/ui/button';
 import { ChevronLeft } from 'lucide-react';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { Skeleton } from '@/components/ui/skeleton';
 
 type FilmProjectPageProps = {
   params: {
@@ -46,6 +47,7 @@ async function getProject(id: string): Promise<ProjectWithStills | null> {
 
 
 export default async function FilmProjectPage({ params }: FilmProjectPageProps) {
+  await params; // Ensure params are resolved
   const project = await getProject(params.id);
 
   if (!project) {
