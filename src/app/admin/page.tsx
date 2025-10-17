@@ -6,7 +6,7 @@ import { createSupabaseClient } from '@/lib/supabase';
 import type { Project } from '@/lib/types';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
-import { Trash2, Edit } from 'lucide-react';
+import { Trash2, Edit, UploadCloud } from 'lucide-react';
 import Image from 'next/image';
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -243,4 +243,3 @@ export default function AdminPage() {
     </div>
   );
 }
-
