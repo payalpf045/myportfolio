@@ -1,7 +1,7 @@
+
 "use client";
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -23,7 +23,6 @@ const ADMIN_PASSWORD = "payal@nita27";
 const AUTH_COOKIE_NAME = "portfolio-auth";
 
 export default function LoginPage() {
-  const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
@@ -43,7 +42,8 @@ export default function LoginPage() {
       });
       // Set a cookie that expires in 1 day
       Cookies.set(AUTH_COOKIE_NAME, 'true', { expires: 1 });
-      router.push('/admin');
+      // Use window.location.href for a full page reload to ensure middleware picks up the cookie
+      window.location.href = '/admin';
     } else {
       toast({
         title: "Error",
