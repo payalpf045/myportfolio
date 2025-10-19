@@ -1,3 +1,4 @@
+
 "use server";
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project } from '@/lib/types';
@@ -41,11 +42,10 @@ export default async function ColorGradingProjectPage({ params }: ColorGradingPr
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
-       <div className="mb-6">
-            <Button variant="ghost" asChild className="text-muted-foreground">
-                <Link href="/color-grading">
-                    <ChevronLeft className="h-4 w-4 mr-2" />
-                    Back to Color Grading
+       <div className="mb-8">
+            <Button variant="ghost" size="icon" asChild className="text-muted-foreground">
+                <Link href="/color-grading" aria-label="Back to Color Grading projects">
+                    <ChevronLeft className="h-5 w-5" />
                 </Link>
             </Button>
         </div>

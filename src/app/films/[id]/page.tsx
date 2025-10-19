@@ -1,3 +1,4 @@
+
 "use server";
 import { createSupabaseClient } from '@/lib/supabase';
 import type { Project, ProjectStill } from '@/lib/types';
@@ -62,10 +63,9 @@ export default async function FilmProjectPage({ params }: FilmProjectPageProps) 
   return (
     <div className="container mx-auto px-4 md:px-6 py-8 md:py-12">
         <div className="mb-8">
-            <Button variant="ghost" asChild className="text-muted-foreground">
-                <Link href="/films">
-                    <ChevronLeft className="h-4 w-4 mr-2" />
-                    Back to Films
+            <Button variant="ghost" size="icon" asChild className="text-muted-foreground">
+                <Link href="/films" aria-label="Back to films">
+                    <ChevronLeft className="h-5 w-5" />
                 </Link>
             </Button>
         </div>
