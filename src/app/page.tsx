@@ -51,6 +51,7 @@ const ProjectIcon = ({ type }: { type: Project['project_type'] }) => {
     }
 }
 
+const DESCRIPTION_MAX_LENGTH = 150;
 
 export default async function HomePage() {
   const projects = await getProjects();
@@ -71,34 +72,46 @@ export default async function HomePage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-16">
           {projects.map((project, index) => (
-            <Link 
-              href={getProjectLink(project)} 
+            <div 
               key={project.id} 
-              className="group animate-fade-in-up flex flex-col p-4 rounded-lg border-2 border-transparent hover:border-border transition-all duration-300 hover:scale-[1.02]"
+              className="group animate-fade-in-up flex flex-col p-4 rounded-lg border-2 border-transparent transition-all duration-300"
               style={{ animationDelay: `${index * 150}ms`, animationFillMode: 'forwards', opacity: 0 }}
             >
-                <div className="relative aspect-video w-full overflow-hidden rounded-md mb-4">
-                  <Image
-                    src={project.cover_image_url}
-                    alt={project.title}
-                    fill
-                    className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  />
-                </div>
+                <Link href={getProjectLink(project)} className="block">
+                    <div className="relative aspect-video w-full overflow-hidden rounded-md mb-4">
+                        <Image
+                            src={project.cover_image_url}
+                            alt={project.title}
+                            fill
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
+                    </div>
+                </Link>
                 <div className="flex justify-between items-start mb-2 gap-4">
                     <h3 className="font-headline text-xl md:text-2xl group-hover:text-white/80 transition-colors">
-                    {project.title}
+                        <Link href={getProjectLink(project)}>{project.title}</Link>
                     </h3>
                     <Badge variant="secondary" className="flex items-center gap-1.5 shrink-0 mt-1">
                       <ProjectIcon type={project.project_type} />
                       <span>{project.project_type}</span>
                     </Badge>
                 </div>
-                <p className="text-muted-foreground text-sm">
-                    {project.description}
-                </p>
-            </Link>
+                <div className="flex-grow">
+                    <p className="text-muted-foreground text-sm">
+                        {project.description && project.description.length > DESCRIPTION_MAX_LENGTH ? (
+                            <>
+                                {`${project.description.substring(0, DESCRIPTION_MAX_LENGTH)}... `}
+                                <Link href={getProjectLink(project)} className="text-primary/70 hover:text-primary hover:underline transition-colors">
+                                    Read More
+                                </Link>
+                            </>
+                        ) : (
+                            project.description
+                        )}
+                    </p>
+                </div>
+            </div>
           ))}
         </div>
       )}
