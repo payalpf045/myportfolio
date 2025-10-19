@@ -205,7 +205,7 @@ export default function AdminPage() {
         </DialogContent>
       </Dialog>
       
-      <div className="grid gap-12 lg:grid-cols-3">
+      <div className="grid gap-8 lg:grid-cols-3 lg:items-start">
         <div className="lg:col-span-1">
           <Card>
             <CardHeader>
