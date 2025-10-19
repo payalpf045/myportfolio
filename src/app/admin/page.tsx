@@ -190,7 +190,7 @@ export default function AdminPage() {
 
 
   return (
-    <div className="container mx-auto px-4 md:px-6 py-8">
+    <div className="container mx-auto px-4 md:px-6 py-6">
       <h1 className="font-headline text-4xl mb-8">Admin Panel</h1>
       
       <Dialog open={isFormOpen} onOpenChange={(isOpen) => {
